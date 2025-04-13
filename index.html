@@ -3,249 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic 3D Experience</title>
+    <title>Amir Hossein Dadjoo | Creative Developer</title>
+    
+    <!-- CSS Files -->
     <link rel="stylesheet" href="css/main.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Space Mono', monospace;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-            padding: 40vh 10vw;
-        }
-
-        .section {
-            min-height: 100vh;
-            padding: 2rem;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-            position: relative;
-            border-left: 2px solid rgba(255, 255, 255, 0.1);
-            background: radial-gradient(
-                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-                rgba(0, 255, 255, 0.1) 0%,
-                transparent 20%
-            );
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            left: -2px;
-            top: 0;
-            width: 2px;
-            height: 0;
-            background: linear-gradient(to bottom, #fff, #0ff);
-            transition: height 1s ease-out;
-        }
-
-        .section.visible::before {
-            height: 100%;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section::after {
-            content: attr(data-index);
-            position: absolute;
-            left: -30px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8rem;
-            color: #0ff;
-            opacity: 0.5;
-        }
-
-        h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -2px;
-            position: relative;
-            display: inline-block;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            transition: text-shadow 0.3s ease;
-        }
-
-        .section.visible h1:hover {
-            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8),
-                         0 0 40px rgba(0, 255, 255, 0.4);
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(to right, #fff, #0ff);
-            transition: width 0.8s ease-out;
-        }
-
-        .section.visible h1::after {
-            width: 100%;
-        }
-
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            position: relative;
-            padding-left: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .section.visible p:hover {
-            transform: translateX(10px);
-        }
-
-        p::before {
-            content: '>';
-            position: absolute;
-            left: 0;
-            color: #0ff;
-            opacity: 0.7;
-        }
-
-        .scroll-indicator {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            opacity: 0.5;
-            animation: bounce 2s infinite;
-            background: rgba(0, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-
-        .scroll-indicator:hover {
-            opacity: 1;
-            transform: translateX(-50%) scale(1.1);
-            background: rgba(0, 255, 255, 0.2);
-        }
-
-        .section-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 1.2rem;
-            z-index: 3;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-
-        .section-counter:hover {
-            transform: scale(1.1);
-            border-color: rgba(0, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        .glitch-text {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .glitch-text:hover {
-            animation: glitch 0.3s infinite;
-            color: #0ff;
-        }
-
-        /* Custom cursor */
-        body {
-            cursor: none;
-        }
-
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(0, 255, 255, 0.5);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-        }
-
-        .cursor::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #0ff;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor.active {
-            transform: scale(1.5);
-            background: rgba(0, 255, 255, 0.1);
-        }
-
-        /* Hide cursor on touch devices */
-        @media (hover: none) {
-            .cursor {
-                display: none;
-            }
-            body {
-                cursor: auto;
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/cursor.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Three.js -->
+    <script async src="https://unpkg.com/es-module-shims@1.7.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
             }
         }
-
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-    </style>
+    </script>
 </head>
 <body>
+    <canvas id="scene"></canvas>
     <div class="cursor"></div>
     <div class="sound-toggle">
         <div class="icon">
@@ -257,79 +35,65 @@
         </div>
         <span>Sound</span>
     </div>
-    <canvas id="scene"></canvas>
-    <div class="progress-bar">
-        <div class="progress"></div>
+    <div class="scroll-indicator">
+        <div class="progress-bar"></div>
     </div>
     <div class="section-counter">0/8</div>
-    
+
     <div class="content">
         <section class="section" data-index="01">
-            <h1 class="glitch-text">Welcome to the Future</h1>
-            <p>Scroll to explore a journey through geometric dimensions. As you venture deeper into this digital realm, you'll witness the convergence of mathematics and art, where every shape tells a story of infinite possibilities.</p>
-            <p>In this space, reality bends to the will of code, creating a symphony of motion and form that challenges your perception of what's possible in the digital realm.</p>
+            <h1 class="glitch-text">Amir Hossein Dadjoo</h1>
+            <p>Computer Engineering Graduate & Full Stack Developer crafting digital experiences that push boundaries.</p>
+            <p>Welcome to my dimensional space where code meets creativity, and innovation becomes reality.</p>
         </section>
 
         <section class="section" data-index="02">
-            <h1 class="glitch-text">Sacred Geometry</h1>
-            <p>Witness the perfection of mathematical forms in motion. The Torus Knot before you represents the infinite loop of existence, a shape that embodies the mathematical beauty found in nature's most fundamental patterns.</p>
-            <p>Each curve and intersection tells a story of harmony and balance, revealing the hidden mathematics that govern our universe's most beautiful structures.</p>
+            <h1 class="glitch-text">Creative Engineering</h1>
+            <p>In the realm of development, creativity isn't just an add-on—it's the cornerstone of innovation.</p>
+            <p>Every line of code is an opportunity to blend technical expertise with creative vision, crafting solutions that transcend the ordinary.</p>
         </section>
 
         <section class="section" data-index="03">
-            <h1 class="glitch-text">Digital Evolution</h1>
-            <p>Where code meets art, creating infinite possibilities. This Icosahedron represents the building blocks of digital life, its twenty faces reflecting the complexity of modern computational systems.</p>
-            <p>Watch as it rotates and transforms, each face catching light in a dance of binary poetry, showcasing the evolution of digital aesthetics in real-time.</p>
+            <h1 class="glitch-text">Execution is Everything</h1>
+            <p>Ideas are abundant, but the magic lies in execution. The urge to transform concepts into reality drives every project I undertake.</p>
+            <p>Pure execution—where vision meets technical precision—is what separates dreams from digital reality.</p>
         </section>
 
         <section class="section" data-index="04">
-            <h1 class="glitch-text">Final Frontier</h1>
-            <p>The boundary between reality and digital dreams blurs here. The Torus you see embodies the cyclical nature of innovation, an endless ring of possibilities in the digital space.</p>
-            <p>Its perfect symmetry and endless curve represent the continuous flow of data and ideas in our interconnected world, a symbol of digital infinity.</p>
+            <h1 class="glitch-text">The What, Not The How</h1>
+            <p>In today's rapid development landscape, we're shifting focus from 'how it's built' to 'what it achieves.'</p>
+            <p>The outcome and impact matter more than the tools we use. It's about creating value that resonates and endures.</p>
         </section>
 
         <section class="section" data-index="05">
-            <h1 class="glitch-text">Quantum Realm</h1>
-            <p>Dive into the microscopic world of infinite possibilities. This sphere, in its perfect roundness, represents the quantum state where all possibilities exist simultaneously.</p>
-            <p>Its surface ripples with the uncertainty principle, a visual metaphor for the mysterious behavior of particles at the quantum level, where observation shapes reality.</p>
+            <h1 class="glitch-text">Beyond Human Creativity</h1>
+            <p>We're entering an era where creativity transcends human boundaries. LLMs and AI aren't just tools—they're creative partners.</p>
+            <p>This fusion of human vision and machine capability opens new dimensions of possibility in digital creation.</p>
         </section>
 
         <section class="section" data-index="06">
-            <h1 class="glitch-text">Crystal Matrix</h1>
-            <p>Pure geometric perfection frozen in digital space. The Octahedron before you symbolizes the crystalline structure of data, each face a window into a different dimension of digital consciousness.</p>
-            <p>Its sharp edges cut through the fabric of virtual space, creating pathways between different realms of digital existence, a bridge between order and chaos.</p>
+            <h1 class="glitch-text">Product-First Mindset</h1>
+            <p>Development today demands a product-first approach. Every feature, every interaction should serve a clear purpose.</p>
+            <p>It's about building products that solve real problems and create meaningful experiences for users.</p>
         </section>
 
         <section class="section" data-index="07">
-            <h1 class="glitch-text">Neural Network</h1>
-            <p>Complex connections forming patterns of artificial consciousness. This Dodecahedron mirrors the intricate networks of artificial neural systems, its twelve faces representing the nodes of digital cognition.</p>
-            <p>Each vertex connects to others in a complex web of relationships, much like the synapses in an artificial brain, processing information in mysterious ways.</p>
+            <h1 class="glitch-text">Creative Collaboration</h1>
+            <p>The future of development lies in the synergy between human creativity and AI capabilities.</p>
+            <p>This website itself demonstrates this harmony—where human vision meets computational creativity.</p>
         </section>
 
         <section class="section" data-index="08">
-            <h1 class="glitch-text">Digital Cosmos</h1>
-            <p>Where mathematics and art converge into pure beauty. The Ring structure represents the gateway to digital transcendence, a portal between the tangible and the virtual.</p>
-            <p>Its circular perfection embodies the endless cycle of technological evolution, a reminder that in the digital universe, every ending is just a new beginning.</p>
+            <h1 class="glitch-text">Let's Build Together</h1>
+            <p>Ready to transform your vision into reality? Let's create something extraordinary.</p>
+            <p>In this age of infinite possibilities, the only limit is our imagination and our will to execute.</p>
         </section>
     </div>
 
-    <div class="scroll-indicator">Scroll to Experience</div>
-
     <!-- Load audio system first -->
     <script src="js/audio.js"></script>
-
-    <!-- Then load Three.js -->
-    <script async src="https://unpkg.com/es-module-shims@1.7.3/dist/es-module-shims.js"></script>
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
-            }
-        }
-    </script>
     
     <!-- Finally load the main application -->
     <script type="module" src="js/main.js"></script>
 </body>
-</html> 
+</html>
