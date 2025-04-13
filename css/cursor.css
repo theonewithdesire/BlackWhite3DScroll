@@ -1,0 +1,42 @@
+/* Custom cursor styles */
+body {
+    cursor: none;
+}
+
+.cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+}
+
+.cursor::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #0ff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cursor.active {
+    transform: scale(1.5);
+    background: rgba(0, 255, 255, 0.1);
+}
+
+/* Hide cursor on touch devices */
+@media (hover: none) {
+    .cursor {
+        display: none;
+    }
+    body {
+        cursor: auto;
+    }
+} 

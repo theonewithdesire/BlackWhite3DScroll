@@ -1,0 +1,32 @@
+/* Animations */
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes shine {
+    to {
+        left: 100%;
+    }
+}
+
+/* Glitch text effect */
+.glitch-text {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.glitch-text:hover {
+    animation: glitch 0.3s infinite;
+    color: #0ff;
+} 

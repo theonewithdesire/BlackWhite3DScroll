@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import 'sections.css';
+@import 'cursor.css';
+@import 'animations.css';
+@import 'audio.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    position: relative;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding: 40vh 10vw;
+}
+
+/* UI Elements */
+.scroll-indicator {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    opacity: 0.5;
+    animation: bounce 2s infinite;
+    background: rgba(0, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+    background: rgba(0, 255, 255, 0.2);
+}
+
+.section-counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.2rem;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.section-counter:hover {
+    transform: scale(1.1);
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* Sound Toggle Button */
+.sound-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sound-toggle:hover {
+    transform: scale(1.1);
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.sound-toggle .icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
+}
+
+.sound-toggle .wave {
+    position: absolute;
+    background: #0ff;
+    width: 2px;
+    height: 0;
+    bottom: 50%;
+    transform: translateY(50%);
+    transition: height 0.2s ease;
+}
+
+.sound-toggle .wave:nth-child(1) { left: 0; height: 8px; }
+.sound-toggle .wave:nth-child(2) { left: 4px; height: 12px; }
+.sound-toggle .wave:nth-child(3) { left: 8px; height: 16px; }
+.sound-toggle .wave:nth-child(4) { left: 12px; height: 12px; }
+.sound-toggle .wave:nth-child(5) { left: 16px; height: 8px; }
+
+.sound-toggle.muted .wave {
+    height: 2px !important;
+    background: #ff3366;
+}
+
+.sound-toggle.muted {
+    border-color: rgba(255, 51, 102, 0.4);
+}
+
+.sound-toggle.muted:hover {
+    border-color: rgba(255, 51, 102, 0.6);
+    box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+} 
