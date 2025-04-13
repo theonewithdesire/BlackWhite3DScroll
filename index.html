@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic 3D Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 40vh 10vw;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+            position: relative;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 0;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to bottom, #fff, #0ff);
+            transition: height 1s ease-out;
+        }
+
+        .section.visible::before {
+            height: 100%;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section::after {
+            content: attr(data-index);
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: #0ff;
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #fff, #0ff);
+            transition: width 0.8s ease-out;
+        }
+
+        .section.visible h1::after {
+            width: 100%;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        p::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: #0ff;
+            opacity: 0.7;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 3;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #fff, #0ff);
+            transition: width 0.3s ease-out;
+        }
+
+        .section-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            z-index: 3;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch-text:hover {
+            animation: glitch 0.3s infinite;
+            color: #0ff;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+    </style>
+</head>
+<body>
+    <canvas id="scene"></canvas>
+    <div class="progress-bar">
+        <div class="progress"></div>
+    </div>
+    <div class="section-counter">0/8</div>
+    
+    <div class="content">
+        <section class="section" data-index="01">
+            <h1 class="glitch-text">Welcome to the Future</h1>
+            <p>Scroll to explore a journey through geometric dimensions. As you venture deeper into this digital realm, you'll witness the convergence of mathematics and art, where every shape tells a story of infinite possibilities.</p>
+            <p>In this space, reality bends to the will of code, creating a symphony of motion and form that challenges your perception of what's possible in the digital realm.</p>
+        </section>
+
+        <section class="section" data-index="02">
+            <h1 class="glitch-text">Sacred Geometry</h1>
+            <p>Witness the perfection of mathematical forms in motion. The Torus Knot before you represents the infinite loop of existence, a shape that embodies the mathematical beauty found in nature's most fundamental patterns.</p>
+            <p>Each curve and intersection tells a story of harmony and balance, revealing the hidden mathematics that govern our universe's most beautiful structures.</p>
+        </section>
+
+        <section class="section" data-index="03">
+            <h1 class="glitch-text">Digital Evolution</h1>
+            <p>Where code meets art, creating infinite possibilities. This Icosahedron represents the building blocks of digital life, its twenty faces reflecting the complexity of modern computational systems.</p>
+            <p>Watch as it rotates and transforms, each face catching light in a dance of binary poetry, showcasing the evolution of digital aesthetics in real-time.</p>
+        </section>
+
+        <section class="section" data-index="04">
+            <h1 class="glitch-text">Final Frontier</h1>
+            <p>The boundary between reality and digital dreams blurs here. The Torus you see embodies the cyclical nature of innovation, an endless ring of possibilities in the digital space.</p>
+            <p>Its perfect symmetry and endless curve represent the continuous flow of data and ideas in our interconnected world, a symbol of digital infinity.</p>
+        </section>
+
+        <section class="section" data-index="05">
+            <h1 class="glitch-text">Quantum Realm</h1>
+            <p>Dive into the microscopic world of infinite possibilities. This sphere, in its perfect roundness, represents the quantum state where all possibilities exist simultaneously.</p>
+            <p>Its surface ripples with the uncertainty principle, a visual metaphor for the mysterious behavior of particles at the quantum level, where observation shapes reality.</p>
+        </section>
+
+        <section class="section" data-index="06">
+            <h1 class="glitch-text">Crystal Matrix</h1>
+            <p>Pure geometric perfection frozen in digital space. The Octahedron before you symbolizes the crystalline structure of data, each face a window into a different dimension of digital consciousness.</p>
+            <p>Its sharp edges cut through the fabric of virtual space, creating pathways between different realms of digital existence, a bridge between order and chaos.</p>
+        </section>
+
+        <section class="section" data-index="07">
+            <h1 class="glitch-text">Neural Network</h1>
+            <p>Complex connections forming patterns of artificial consciousness. This Dodecahedron mirrors the intricate networks of artificial neural systems, its twelve faces representing the nodes of digital cognition.</p>
+            <p>Each vertex connects to others in a complex web of relationships, much like the synapses in an artificial brain, processing information in mysterious ways.</p>
+        </section>
+
+        <section class="section" data-index="08">
+            <h1 class="glitch-text">Digital Cosmos</h1>
+            <p>Where mathematics and art converge into pure beauty. The Ring structure represents the gateway to digital transcendence, a portal between the tangible and the virtual.</p>
+            <p>Its circular perfection embodies the endless cycle of technological evolution, a reminder that in the digital universe, every ending is just a new beginning.</p>
+        </section>
+    </div>
+
+    <div class="scroll-indicator">Scroll to Experience</div>
+
+    <script async src="https://unpkg.com/es-module-shims@1.7.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#scene'),
+            antialias: true,
+            alpha: true
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(2, 2, 5);
+        scene.add(directionalLight);
+
+        // Particle system
+        const particleGeometry = new THREE.BufferGeometry();
+        const particleCount = 1000;
+        const posArray = new Float32Array(particleCount * 3);
+
+        for(let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.5
+        });
+
+        const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particleSystem);
+
+        // Create geometric objects
+        const geometries = [
+            new THREE.TorusKnotGeometry(2, 0.5, 100, 16),
+            new THREE.IcosahedronGeometry(2, 0),
+            new THREE.TorusGeometry(2, 0.5, 16, 100),
+            new THREE.SphereGeometry(2, 32, 32),
+            new THREE.OctahedronGeometry(2, 0),
+            new THREE.DodecahedronGeometry(2, 0),
+            new THREE.ConeGeometry(2, 4, 32),
+            new THREE.RingGeometry(1, 2, 32)
+        ];
+
+        const material = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            wireframe: true,
+            wireframeLinewidth: 2,
+            emissive: 0x00ffff,
+            emissiveIntensity: 0.2
+        });
+
+        const meshes = geometries.map(geometry => {
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.z = -8;
+            scene.add(mesh);
+            return mesh;
+        });
+
+        // Camera position
+        camera.position.z = 8;
+
+        // Scroll Animation
+        let scrollY = window.scrollY;
+        let currentSection = 0;
+        const progressBar = document.querySelector('.progress');
+        const sectionCounter = document.querySelector('.section-counter');
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+            const newSection = Math.round(scrollY / window.innerHeight);
+            
+            if (newSection !== currentSection) {
+                currentSection = newSection;
+                document.querySelectorAll('.section').forEach((section, index) => {
+                    if (index === currentSection) {
+                        section.classList.add('visible');
+                    } else {
+                        section.classList.remove('visible');
+                    }
+                });
+            }
+
+            // Update progress bar and counter
+            const progress = (scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = `${progress}%`;
+            sectionCounter.textContent = `${currentSection + 1}/8`;
+        });
+
+        // Mouse movement effect
+        let mouseX = 0;
+        let mouseY = 0;
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const targetRotationY = (scrollY / window.innerHeight) * Math.PI * 2;
+            
+            // Rotate particle system
+            particleSystem.rotation.x += 0.0001;
+            particleSystem.rotation.y += 0.0001;
+
+            meshes.forEach((mesh, index) => {
+                mesh.rotation.x += 0.001;
+                mesh.rotation.y += 0.002;
+                
+                // Show only current mesh
+                mesh.visible = Math.floor(scrollY / window.innerHeight) === index;
+                
+                // Position based on scroll and mouse
+                mesh.position.y = Math.sin(Date.now() * 0.001) * 0.2;
+                mesh.position.x += (mouseX * 0.1 - mesh.position.x) * 0.05;
+                mesh.rotation.y += (mouseX * 0.1 - mesh.rotation.y) * 0.05;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start animation
+        animate();
+
+        // Initialize first section as visible
+        document.querySelector('.section').classList.add('visible');
+    </script>
+</body>
+</html> 
